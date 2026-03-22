@@ -888,6 +888,18 @@ h6 {
   .hero-title-grid {
     gap: 0.5rem;
   }
+  
+  .hero-title-grid span.color-p {
+    color: var(--color-brand-p) !important;
+  }
+
+  .hero-title-grid span.color-n {
+    color: var(--color-brand-n) !important;
+  }
+
+  .hero-title-grid span.color-r {
+    color: var(--color-brand-r) !important;
+  }
 }
 
 .hero-subtitle {
@@ -1256,166 +1268,161 @@ h6 {
   opacity: 1;
 }
 
-/* Reviews Section */
-.reviews {
+/* Clients Section */
+.clients {
   background-color: transparent;
 }
 
-/* Reviews Marquee */
-.reviews-marquee {
+/* Clients Marquee - Dual Row */
+.clients-marquee {
   position: relative;
   overflow: hidden;
   margin-top: 2.5rem;
   padding: 1rem 0 2rem;
-  /* Wider, softer fade edges */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  /* Subtle, premium edge fade */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between the two rows */
 }
 
-.reviews-track {
+/* Each animated track */
+.clients-track {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
   width: max-content;
-  /* Slower, more luxurious scroll */
-  animation: reviewsScroll 40s linear infinite;
   will-change: transform;
 }
 
-/* Pause on hover for readability */
-.reviews-marquee:hover .reviews-track {
-  animation-play-state: paused;
+.clients-track:not([dir="rtl"]) {
+  padding-right: 1.5rem;
 }
 
-@keyframes reviewsScroll {
+.clients-track[dir="rtl"] {
+  padding-left: 1.5rem;
+}
+
+/* Pause on hover for interaction (Desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  .clients-marquee .clients-track:hover {
+    animation-play-state: paused !important;
+  }
+}
+
+/* Track direction assignments */
+.clients-track.track-left {
+  animation: clientsScrollLeft 45s linear infinite;
+}
+
+.clients-track.track-right {
+  animation: clientsScrollRight 40s linear infinite;
+  /* Right-to-left markup support uses dir="rtl" on parent and "ltr" on children to reverse order without breaking layout */
+}
+
+/* Keyframes */
+@keyframes clientsScrollLeft {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
-.review-card {
-  flex: 0 0 400px;
+@keyframes clientsScrollRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Client Card styling (Sleek generic brand box) */
+.client-card {
+  flex: 0 0 220px; /* Movie tape feel: slightly wide landscape rectangles */
+  height: 110px;
   background: var(--color-surface);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Removed backdrop-filter for performance: scrolling multiple blurred objects causes GPU lag */
   border: 1px solid color-mix(in srgb, var(--grid-border) 40%, transparent);
-  border-radius: 16px;
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.review-card::before {
-  content: '\201C';
-  position: absolute;
-  top: 0.75rem;
-  right: 1.5rem;
-  font-size: 8rem;
-  font-family: Georgia, serif;
-  /* More prominent brand-tinted quote */
-  color: color-mix(in srgb, var(--color-brand-r) 8%, transparent);
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-}
-
-.review-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="dark"] .review-card {
-  background: rgba(255, 255, 255, 0.03);
-  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-[data-theme="dark"] .review-card:hover {
-  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.07);
-}
-
-.review-stars {
-  display: flex;
-  gap: 0.25rem;
-  color: #fbbf24;
-  /* Golden yellow */
-}
-
-.review-text {
-  font-size: 1.05rem;
-  color: var(--color-text-main);
-  line-height: 1.6;
-  font-style: italic;
-  flex-grow: 1;
-}
-
-.review-author {
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: auto;
-  padding-top: 1.5rem;
-  border-top: 1px solid color-mix(in srgb, var(--grid-border) 50%, transparent);
+  justify-content: center;
+  padding: 0; /* Zero padding to let logos fill the entire card */
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+  overflow: hidden; /* Prevent logos from spilling out */
 }
 
-.author-details h4 {
-  font-size: 1rem;
+.client-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Logos should be contained */
+  transform: translateZ(0); /* Hardware accelerate drawing */
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .client-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    z-index: 2;
+  }
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] .client-card {
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="dark"] .client-card:hover {
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+}
+
+/* Placeholder Styling */
+.client-logo-placeholder {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.1rem;
   color: var(--color-text-main);
-  margin: 0 0 0.25rem 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-.author-details span {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-@media (max-width: 600px) {
-  .reviews-grid {
+@media (max-width: 768px) {
+  .clients-marquee {
     gap: 0.75rem;
-    grid-template-columns: 1fr;
-    margin-top: 1rem;
+    padding: 0.5rem 0 1rem;
   }
-
-  .review-card {
-    padding: 1.25rem;
+  
+  .clients-track {
     gap: 0.75rem;
-    border-radius: 10px;
   }
-
-  .review-card::before {
-    font-size: 3.5rem;
-    top: 0.25rem;
-    right: 0.75rem;
+  
+  .clients-track:not([dir="rtl"]) {
+    padding-right: 0.75rem;
   }
-
-  .review-stars svg {
-    width: 13px;
-    height: 13px;
+  
+  .clients-track[dir="rtl"] {
+    padding-left: 0.75rem;
   }
-
-  .review-text {
+  
+  .client-card {
+    flex: 0 0 110px;
+    height: 55px;
+    padding: 0; /* Zero for mobile too */
+    border-radius: 6px;
+  }
+  
+  .client-logo-placeholder {
     font-size: 0.9rem;
-    line-height: 1.55;
-  }
-
-  .review-author {
-    padding-top: 0.75rem;
-    gap: 0.75rem;
-  }
-
-  .author-details h4 {
-    font-size: 0.875rem;
-  }
-
-  .author-details span {
-    font-size: 0.75rem;
   }
 }
 

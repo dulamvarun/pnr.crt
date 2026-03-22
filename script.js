@@ -1,4 +1,4 @@
-﻿/**
+/**
  * PNR Clean Room Technologies
  * Theme Initialization and UI Interactions
  */
@@ -210,45 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // 4g / WiFi / unknown: leave srcset unchanged, browser picks full quality
 
-  // ==== Reviews Drag-to-Scroll ====
-  const reviewsMarquee = document.querySelector('.reviews-marquee');
-  const reviewsTrack = document.querySelector('.reviews-track');
-  if (reviewsMarquee && reviewsTrack) {
-    const DURATION = 40;
-    let isDown = false, startX = 0, currentX = 0, animationOffset = 0;
-    const getTranslateX = () => new DOMMatrix(window.getComputedStyle(reviewsTrack).transform).m41;
-    const startDrag = (x) => {
-      isDown = true; startX = x;
-      animationOffset = getTranslateX();
-      reviewsTrack.style.animationPlayState = 'paused';
-      reviewsTrack.style.transform = 'translateX(' + animationOffset + 'px)';
-      reviewsMarquee.style.cursor = 'grabbing';
-    };
-    const moveDrag = (x) => {
-      if (!isDown) return;
-      currentX = animationOffset + (x - startX);
-      reviewsTrack.style.transform = 'translateX(' + currentX + 'px)';
-    };
-    const endDrag = () => {
-      if (!isDown) return;
-      isDown = false;
-      reviewsMarquee.style.cursor = 'grab';
-      const halfWidth = reviewsTrack.scrollWidth / 2;
-      let norm = currentX % halfWidth;
-      if (norm > 0) norm -= halfWidth;
-      const delay = -(Math.abs(norm) / halfWidth) * DURATION;
-      reviewsTrack.style.transform = '';
-      reviewsTrack.style.animationDelay = delay + 's';
-      reviewsTrack.style.animationPlayState = 'running';
-    };
-    reviewsMarquee.addEventListener('mousedown', (e) => { e.preventDefault(); startDrag(e.pageX); });
-    window.addEventListener('mousemove', (e) => moveDrag(e.pageX));
-    window.addEventListener('mouseup', endDrag);
-    reviewsMarquee.addEventListener('touchstart', (e) => startDrag(e.touches[0].pageX), { passive: true });
-    reviewsMarquee.addEventListener('touchmove', (e) => { moveDrag(e.touches[0].pageX); e.preventDefault(); }, { passive: false });
-    reviewsMarquee.addEventListener('touchend', endDrag);
-    reviewsMarquee.style.cursor = 'grab';
-  }
+  // ==== Clients Marquee ====
+  // The movie-tape style clients marquee is handled purely via CSS animations.
+  // Hovering the marquee pauses the scrolling automatically.
 
   // ==== Active Nav Highlighting on Scroll ====
   const sections = document.querySelectorAll('section[id]');
