@@ -1400,10 +1400,15 @@ h6 {
   .clients-marquee {
     gap: 0.75rem;
     padding: 0.5rem 0 1rem;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   
   .clients-track {
     gap: 0.75rem;
+    display: inline-flex !important;
+    min-width: max-content;
+    flex-shrink: 0;
   }
   
   .clients-track:not([dir="rtl"]) {
@@ -1411,7 +1416,9 @@ h6 {
   }
   
   .clients-track[dir="rtl"] {
-    padding-left: 0.75rem;
+    direction: ltr !important;
+    padding-right: 0.75rem;
+    padding-left: 0 !important;
   }
   
   .client-card {
