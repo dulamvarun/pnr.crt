@@ -1667,3 +1667,16 @@ a.contact-card:hover .contact-info span.technical-link {
     height: 48px;
   }
 }
+
+/* Bypassing iOS Safari Flex width max-content buggy computation */
+@media (max-width: 768px) {
+  @keyframes mobileScrollLeft {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-1220px, 0, 0); }
+  }
+
+  @keyframes mobileScrollRight {
+    0% { transform: translate3d(-1342px, 0, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+  }
+}
