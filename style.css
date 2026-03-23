@@ -1406,19 +1406,21 @@ h6 {
   
   .clients-track {
     gap: 0.75rem;
-    display: inline-flex !important;
-    min-width: max-content;
+    display: flex !important;
+    width: max-content;
     flex-shrink: 0;
   }
   
-  .clients-track:not([dir="rtl"]) {
+  .clients-track.track-left {
     padding-right: 0.75rem;
+    animation-name: mobileScrollLeft !important;
   }
   
-  .clients-track[dir="rtl"] {
+  .clients-track.track-right {
     direction: ltr !important;
     padding-right: 0.75rem;
     padding-left: 0 !important;
+    animation-name: mobileScrollRight !important;
   }
   
   .client-card {
